@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html ng-app="c">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+ 
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/ly.css" rel="stylesheet">
+  
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+  -->
+
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <!--<script src="cordova.js"></script>-->
+
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/jquery-1.9.1.min.js"></script>
+</head>
+<body ng-controller="MainCtrl">
+   <!--<ion-nav-bar animation="nav-title-slide-ios7" 
+             type="bar-positive" 
+             back-button-type="button-icon" 
+             back-button-icon="ion-arrow-left-c"></ion-nav-bar>-->
+
+             <ion-side-menus>
+
+             <ion-side-menu-content>
+             <!--<ion-nav-view animation="slide-left-right" name="sidelist"></ion-nav-view>-->
+             <!--tabs-->
+             <ion-nav-view name="hothome-tab"></ion-nav-view>
+    <!--<ion-nav-view name="student-tab"></ion-nav-view>
+    <ion-nav-view name="teacher-tab"></ion-nav-view>
+    <ion-nav-view name="company-tab"></ion-nav-view>
+    <!--<script type="text/ng-template" id="tabs.html">-->
+    <ion-tabs class="tabs-positive tabs-icon-top">
+    <ion-tab title="首页" icon="ion-home" href="#/hotHome">
+
+  </ion-tab>
+
+  <ion-tab title="学生" icon="ion-ios-people" href="#/student">
+
+</ion-tab>
+
+<ion-tab title="导师" icon="ion-android-contact" href="#/teacher">
+
+</ion-tab>
+
+<ion-tab title="企业" icon="ion-document-text" href="#/company">
+
+</ion-tab>
+</ion-tabs>
+</ion-side-menu-content>
+<!--</script>-->
+<!--最热首页-->
+<script type="text/ng-template" id="hotHome.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-person' ng-click="showSide()"></button>
+    <h1 class="title">首页</h1>
+    <button class="button icon icon-right ion-document" ng-click="openModal()">发布项目</button>
+
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <span class="hot {{hotactive}}" ng-click="hot()">最新</span>
+  <span class="new {{newactive}}" ng-click="new()">最热</span>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/detail"  ng-click="itemDetail(item.id)">
+<span class="ly_span">名称：{{item.name}}</span>
+<span class="ly_span">日期：{{item.time}}</span>
+</ion-item>
+</ion-list>
+
+</ion-content>
+</script> 
+<!--学生-->
+<script type="text/ng-template" id="student.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-person' ng-click="showSide()"></button>
+    <h1 class="title">学生项目</h1>
+    <button class="button icon icon-right ion-document" ng-click="openModal()">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <span class="hot {{hotactive}}" ng-click="hot()">最新</span>
+  <span class="new {{newactive}}" ng-click="new()">最热</span>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/detail" ng-click="itemDetail(item.id)">
+<span class="ly_span">名称：{{item.name}}</span>
+<span class="ly_span">日期：{{item.time}}</span>
+</ion-item>
+</ion-list>
+</ion-content>
+
+
+</script> 
+<!--老师-->
+<script type="text/ng-template" id="teacher.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+   <button class='button icon ion-person' ng-click="showSide()"></button>
+   <h1 class="title">老师项目</h1>
+   <button class="button icon icon-right ion-document" ng-click="openModal()">发布项目</button>
+ </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <span class="hot {{hotactive}}" ng-click="hot()">最新</span>
+  <span class="new {{newactive}}" ng-click="new()">最热</span>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/detail" ng-click="itemDetail(item.id)">
+<span class="ly_span">名称：{{item.name}}</span>
+<span class="ly_span">日期：{{item.time}}</span>
+</ion-item>
+</ion-list>
+</ion-content>
+
+
+</script> 
+<!--企业-->
+<script type="text/ng-template" id="company.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-person' ng-click="showSide()"></button>
+    <h1 class="title">企业项目</h1>
+    <button class="button icon icon-right ion-document" ng-click="openModal()">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+ <span class="hot {{hotactive}}" ng-click="hot()">最新</span>
+ <span class="new {{newactive}}" ng-click="new()">最热</span>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/detail" ng-click="itemDetail(item.id)">
+<span class="ly_span">名称：{{item.name}}</span>
+<span class="ly_span">日期：{{item.time}}</span>
+</ion-item>
+</ion-list>
+</ion-content>
+
+
+</script> 
+
+<!--项目详情-->
+<script type="text/ng-template" id="detail.html">
+   <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-person' ng-click="showSide()"></button>
+    <h1 class="title">项目详情</h1>
+    <button class="button icon icon-right ion-document" ng-click="openModal()">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+  <p class="ly_span" id="li0"></p>
+  <p class="ly_span" id="li1"></p>
+  <p class="ly_span" id="li2"></p>
+  <p class="ly_span" id="li3"></p>
+  <p class="ly_span" id="li4"></p>
+  <a class="button ly_button_width button-outline button-positive">点我报名</a>
+  <a class="button ly_button_width button-outline button-positive itempersondetail1" ng-click="openModal()" ng-controller="itempersonname1"></a>
+  <a class="button ly_button_width button-outline button-positive itempersondetail2" ng-click="openModal()" ng-controller="itempersonname2"></a>
+   <a class="button ly_button_width button-outline button-positive itempersondetail3" ng-click="openModal()" ng-controller="itempersonname3"></a>
+</ion-content>     
+<ion-footer-bar></ion-footer-bar>
+</script> 
+<!--项目发布人老师详细信息-->
+<script id="itempersondetail1.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar>
+    <h1 class="title">tearch</h1>
+    <button class="button button-icon icon ion-close-circled assertive" ng-click="closeModal()"></button>
+  </ion-header-bar>
+  <ion-content>
+    <div class="row"><div class="col col-80 col-offset-10"><img style="width:100%" class="teacher-img"></div></div>
+    <table class="table table-striped" style="width:90%;margin-left:5%">
+      <tr>
+        <td class="teacher-name"></td>
+        <td class="teacher-faculty">院系：</td>
+        
+      </tr>
+      <tr>
+        <td colspan="2" class="teacher-tel">电话：122222222222</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="teacher-email">邮箱</td>
+      </tr>
+      <tr>
+        <td class="teacher-teacherNum">工号：</td>
+        <td class="teacher-technicalTitle">职称：</td>
+      </tr>
+      <tr><td colspan="2"><button class="button button-posivite button-block">关注此人</button><td></tr>
+    </table>
+  </ion-content>
+</div>
+
+</ion-content>
+</div>
+</script>
+<!--项目发布人学生详细信息-->
+<script id="itempersondetail2.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar>
+    <h1 class="title">222</h1>
+    <button class="button button-icon icon ion-close-circled assertive" ng-click="closeModal()"></button>
+  </ion-header-bar>
+  <ion-content style="overflow:auto">
+    <div class="row"><div class="col col-80 col-offset-10"><img src="img/01.jpg" style="width:100%"></div></div>
+    <table class="table table-striped" style="width:90%;margin-left:5%">
+      <tr>
+        <td>姓名：liyu</td>
+        <td>院系：</td>
+        
+      </tr>
+      <tr>
+        <td colspan="2">电话：122222222222</td>
+      </tr>
+      <tr>
+        <td colspan="2">邮箱</td>
+      </tr>
+      <tr><td colspan="2"><button class="button button-posivite button-block">关注此人</button><td></tr>
+    </table>
+  </ion-content>
+</div>
+
+</ion-content>
+</div>
+</script>
+<!--项目发布人企业详细信息-->
+<script id="itempersondetail3.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar>
+    <h1 class="title">33</h1>
+    <button class="button button-icon icon ion-close-circled assertive" ng-click="closeModal()"></button>
+  </ion-header-bar>
+  <ion-content style="overflow:auto">
+    <div class="row"><div class="col col-80 col-offset-10"><img src="img/01.jpg" style="width:100%"></div></div>
+    <table class="table table-striped" style="width:90%;margin-left:5%">
+      <tr>
+        <td>公司名称：liyu</td>
+        <td>法人代表</td>
+        
+      </tr>
+      <tr>
+        <td colspan="2">电话：122222222222</td>
+      </tr>
+      <tr>
+        <td colspan="2">邮箱</td>
+      </tr>
+      <tr>
+        <td colspan="2">机构代码</td>
+      </tr>
+      <tr><td colspan="2"><button class="button button-posivite button-block">关注此人</button><td></tr>
+    </table>
+  </ion-content>
+</div>
+
+</ion-content>
+</div>
+</script>
+<!--已发布的项目-->
+<script type="text/ng-template" id="person0.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">已发布的项目</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>   
+</script> 
+<!--发起的投递-->
+<script type="text/ng-template" id="person1.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">发起的投递</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>
+</script> 
+<!--收到的约谈-->
+<script type="text/ng-template" id="person2.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">收到的约谈</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>   
+</script> 
+<!--我的关注-->
+<script type="text/ng-template" id="person3.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">我的关注</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>   
+</script> 
+<!--会员服务-->
+<script type="text/ng-template" id="person4.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">会员服务</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>   
+</script> 
+<!--修改个人信息-->
+<script type="text/ng-template" id="person6.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">修改个人信息</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>   
+</script> 
+<!--注销/登录-->
+<script type="text/ng-template" id="person7.html">
+  <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-navicon-round'></button>
+    <h1 class="title">注销</h1>
+    <button class="button icon icon-right ion-document">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+<div class="ly-hot-new">
+  <a href="">最新</a>
+  <a href="">最热</a>
+</div>
+<ion-list>
+<ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}">
+<span>名称：{{item.name}}</span>
+<span>类别：{{item.type}}</span>
+</ion-item>
+</ion-list>
+</ion-content>   
+</script> 
+<!--发布项目-->
+<script id="my-project.html" type="text/ng-template">
+  <div class="modal">
+    <ion-header-bar>
+    <h1 class="title">发布项目</h1>
+    <button class="button button-icon icon ion-close-round" ng-click="closeModal()"></button>
+  </ion-header-bar>
+  <ion-content>
+  <div class="list">
+    <form name="project">
+      <label class="item item-input">
+        <span class="input-label">项目名称</span>
+        <input type="text" required />
+      </label>
+      <label class="item item-input">
+        <span class="input-label">项目简介</span>
+        <input type="text" maxlength=30  required placeholder="字数不超过30字">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">项目目的</span>
+        <input type="text" maxlength=20  required placeholder="字数不超20字" />
+      </label>
+      <ion-toggle>
+      是否可参赛
+    </ion-toggle>
+    <label class="item item-input">
+      <span class="input-label">项目需求</span>
+      <input type="text" required />
+    </label>
+    <button type="submit" class="button button-block button-calm">提交</button>
+
+  </form>
+</div>
+
+</ion-content>
+</div>
+</script>
+<ion-side-menu side="left">
+<ion-header-bar class='bar-dark'>
+<h1 class="title">个人信息</h1>
+</ion-header-bar>
+<ion-content>
+<ion-list>
+<ion-item style="padding:0px">
+<img src="img/01.jpg">
+<p>姓名：{{one.name}}</p>
+<p>院系：{{one.faculty}}</p>
+<p>班级：{{one.class}}</p>
+<p>学号：{{one.num}}</p>
+</ion-item>
+<ion-item nav-clear menu-close ng-repeat="person in persons" href="#/person{{person.id}}" ng-click="">
+<i class="icon ion-clock"></i>  {{person.title}} <span class="badge badge-assert" ng-if="person.num>0">{{person.num}}</span>
+</ion-item>
+</ion-list>
+</ion-content>
+      </ion-side-menu>
+    </ion-side-menus>
+
+  </body>
+
+
+  <script type="text/javascript">
+    var a=angular.module('c',['ionic'])
+    .controller('MainCtrl',function($scope,$ionicSideMenuDelegate,$ionicModal,$http){
+       itemdetail1={"name":"sisi"};
+       $http({
+        method:'GET',
+        url:'json/item.json'})
+        .success(function(data,status,header,config){
+          $scope.items=data;
+          console.log($scope.items);
+        })
+
+      $scope.hotactive="ly_active";
+      $scope.items;
+      $scope.hot=function(){
+        $scope.items;
+        $scope.hotactive="ly_active";
+        $scope.newactive="";
+      }
+      $scope.new=function(){
+        $scope.items;
+        $scope.newactive="ly_active";
+        $scope.hotactive="";
+      }
+      $scope.persons=[{
+        title:'已发布的项目',num:'1',id:'0'
+      },{
+        title:'发起的投递',num:'1',id:'1'
+      },{
+        title:'收到的约谈',num:'1',id:'2'
+      },{
+        title:'我的关注',num:'1',id:'3'
+      },{
+        title:'会员服务',num:'1',id:'4'
+      },{
+        title:'首页',num:'0',id:'5'
+      },{
+        title:'修改个人信息',num:'0'
+      },{
+        title:'注销',num:'0',id:'7'
+      }];
+      $scope.showSide=function(){
+        $ionicSideMenuDelegate.toggleLeft();
+        $ionicSideMenuDelegate.canDragContent(true);
+      }
+      $ionicModal.fromTemplateUrl('my-project.html',{
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+      $scope.openModal = function() {
+        $scope.modal.show();
+      };
+      $scope.closeModal = function() {
+        $scope.modal.hide();
+      };
+        //当我们用到模型时，清除它！
+        $scope.$on('$destroy', function() {
+          $scope.modal.remove();
+        });
+        // 当隐藏的模型时执行动作
+        $scope.$on('modal.hide', function() {
+          // 执行动作
+        });
+        // 当移动模型时执行动作
+        $scope.$on('modal.removed', function() {
+          // 执行动作
+        });
+        $scope.itemDetail=function(index){
+        
+         a=$scope.items[index];
+         //console.log(a);
+         $("#li0").html("项目名称："+a.name);
+         $("#li1").html("项目简介："+a.summary);
+         $("#li2").html("项目目的："+a.porpuse);
+         $("#li3").html("项目需求："+a.need);
+         $("#li4").html("项目是否可参赛："+a.match);
+        
+        // $("#itempersondetail").attr('href',"/item/itempersondetail"+a.personType)
+         if(a.personType==1){
+            $(".itempersondetail1").attr('teacher',a.personName+','+a.technicalTitle+','+a.teacherNum+','+a.faculty+','+a.src+','+a.tel+','+a.email);
+            $(".itempersondetail1").html(a.personName+"信息");
+            $('.itempersondetail1').show();
+            $('.itempersondetail2').hide();
+            $('.itempersondetail3').hide();
+
+         }else if(a.personType==2){
+            $(".itempersondetail1").attr('company',a.companyName+','+a.code+','+a.legal+','+a.faculty+','+a.src+','+a.tel+','+a.email);
+            $(".itempersondetail2").html(a.personName+"信息");
+            $('.itempersondetail1').hide();
+            $('.itempersondetail2').show();
+            $('.itempersondetail3').hide();
+
+
+         }else if(a.personType==3){
+            $(".itempersondetail1").attr('student',a.personName+','+a.faculty+','+a.src+','+a.tel+','+a.email);
+            $(".itempersondetail3").html(a.personName+"信息");
+            $('.itempersondetail1').hide();
+            $('.itempersondetail2').hide();
+            $('.itempersondetail3').show();
+
+         }
+       }
+       /*$(".itempersondetail1").click(function(){
+          var teacher=$(".itempersondetail1").attr('teacher').split(",");
+          defaultPrevent()
+          //$(".teacher-name").text("姓名："+teacher[0]);
+       })*/
+
+     }).controller('itempersonname1',function($scope,$ionicModal){
+        $ionicModal.fromTemplateUrl('itempersondetail1.html',{
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+          $scope.modal.show();
+          var teacher=$(".itempersondetail1").attr('teacher').split(",");
+          $(".teacher-name").text("姓名："+teacher[0]);
+          $(".teacher-technicalTitle").text("职称："+teacher[1]);
+          $(".teacher-teacherNum").text("电话："+teacher[2]);
+          $(".teacher-faculty").text("院系："+teacher[3]);
+          $(".teacher-img").attr("src",teacher[4]);
+          $(".teacher-tel").text("电话："+teacher[5]);
+          $(".teacher-email").text("邮箱："+teacher[6]);
+        };
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+        };
+          //当我们用到模型时，清除它！
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
+          // 当隐藏的模型时执行动作
+          $scope.$on('modal.hide', function() {
+            // 执行动作
+          });
+          // 当移动模型时执行动作
+          $scope.$on('modal.removed', function() {
+            // 执行动作
+          });
+     })
+     .controller('itempersonname2',function($scope,$ionicModal){
+        $ionicModal.fromTemplateUrl('itempersondetail2.html',{
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+          $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+        };
+          //当我们用到模型时，清除它！
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
+          // 当隐藏的模型时执行动作
+          $scope.$on('modal.hide', function() {
+            // 执行动作
+          });
+          // 当移动模型时执行动作
+          $scope.$on('modal.removed', function() {
+            // 执行动作
+          });
+     })
+     .controller('itempersonname3',function($scope,$ionicModal){
+        $ionicModal.fromTemplateUrl('itempersondetail3.html',{
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+          $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+        };
+          //当我们用到模型时，清除它！
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
+          // 当隐藏的模型时执行动作
+          $scope.$on('modal.hide', function() {
+            // 执行动作
+          });
+          // 当移动模型时执行动作
+          $scope.$on('modal.removed', function() {
+            // 执行动作
+          });
+     })
+.config(function($stateProvider,$urlRouterProvider){
+  $stateProvider
+
+  .state('hotHome',{
+    url:'/hotHome',
+    views:{
+      'hothome-tab':{
+        templateUrl:"hotHome.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person5',{
+    url:'/hotHome',
+    views:{
+      'hothome-tab':{
+        templateUrl:"hotHome.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('student',{
+    url:'/student',
+    views:{
+      'hothome-tab':{
+        templateUrl:"student.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('teacher',{
+    url:'/teacher',
+    views:{
+      'hothome-tab':{
+        templateUrl:"teacher.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('company',{
+    url:'/company',
+    views:{
+      'hothome-tab':{
+        templateUrl:"company.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person0',{
+    url:'/person0',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person0.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person1',{
+    url:'/person1',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person1.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person2',{
+    url:'/person2',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person2.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person3',{
+    url:'/person3',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person3.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person4',{
+    url:'/person4',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person4.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person6',{
+    url:'/person6',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person6.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('person7',{
+    url:'/person7',
+    views:{
+      'hothome-tab':{
+        templateUrl:"person7.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('item0',{
+    url:'/item/persondetail0',
+    views:{
+      'hothome-tab':{
+        templateUrl:"persondetail0.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('item1',{
+    url:'/item/persondetail1',
+    views:{
+      'hothome-tab':{
+        templateUrl:"persondetail1.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('item2',{
+    url:'/item/persondetail2',
+    views:{
+      'hothome-tab':{
+        templateUrl:"persondetail2.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  .state('item',{
+    url:'/item/detail',
+    views:{
+      'hothome-tab':{
+        templateUrl:"detail.html",
+        controller:'MainCtrl'
+      }
+    }
+  })
+  $urlRouterProvider.otherwise('hotHome');
+})
+</script>
+</html>

@@ -1,0 +1,18 @@
+ <ion-header-bar class="bar-positive">
+  <div class="buttons">
+    <button class='button icon ion-person' ng-click="showSide()"></button>
+    <h1 class="title">项目详情</h1>
+    <button class="button icon icon-right ion-document" ng-click="openModal()">发布项目</button>
+  </div>
+</ion-header-bar>
+<ion-content>
+	<p class="ly_span" id="li0"></p>
+	<p class="ly_span" id="li1"></p>
+	<p class="ly_span" id="li2"></p>
+	<p class="ly_span" id="li3"></p>
+	<p class="ly_span" id="li4"></p>
+	<p class="ly_span" id="li5"></p>
+	<a href="" class="button ly_button_width button-outline button-positive">点我报名</a>
+	<a href="" class="button ly_button_width button-outline button-positive" ng-click="openModal()" ng-controller="itempersonname">{{item.personname}}信息</a>
+</ion-content>     
+<ion-footer-bar></ion-footer-bar>
